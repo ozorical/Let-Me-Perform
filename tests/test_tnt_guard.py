@@ -2,18 +2,13 @@ import types
 
 import fake_endstone
 import pytest
-from fake_endstone import ActorExplodeEvent
+from fake_endstone import ActorExplodeEvent, Block
 
 from endstone_let_me_perform.features import tnt_guard
 from endstone_let_me_perform.features.tnt_guard import CELL_LIMIT, Chain
 
 WITH_TNT = ["minecraft:stone", "minecraft:tnt", "minecraft:dirt", "minecraft:tnt"]
 WITHOUT_TNT = ["minecraft:stone", "minecraft:dirt"]
-
-
-class Block(fake_endstone.Block):
-    def get_relative(self, offset_x, offset_y, offset_z):
-        return Block(self.dimension, self.x + offset_x, self.y + offset_y, self.z + offset_z, self.type)
 
 
 @pytest.fixture

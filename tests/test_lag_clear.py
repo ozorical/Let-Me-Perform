@@ -2,6 +2,7 @@ import re
 
 import fake_endstone
 import pytest
+from fake_endstone import Allowance
 
 from endstone_let_me_perform.core.tables import STACK_TAG
 from endstone_let_me_perform.features import lag_clear
@@ -16,15 +17,6 @@ class Clock:
 
     def __call__(self):
         return self.now
-
-
-class Allowance:
-    def __init__(self, entities):
-        self.left = entities
-
-    def spent(self):
-        self.left -= 1
-        return self.left < 0
 
 
 @pytest.fixture

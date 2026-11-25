@@ -1,13 +1,6 @@
+from fake_endstone import Allowance
+
 from endstone_let_me_perform.core.index import ITEM
-
-
-class Allowance:
-    def __init__(self, checks):
-        self.left = checks
-
-    def spent(self):
-        self.left -= 1
-        return self.left < 0
 
 
 def run_pass(plugin, passes=1):

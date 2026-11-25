@@ -1,19 +1,10 @@
 import pytest
-from fake_endstone import Actor, Block, BlockFace, ItemStack, Mob, PlayerInteractEvent
+from fake_endstone import Actor, Allowance, Block, BlockFace, ItemStack, Mob, PlayerInteractEvent
 
 from endstone_let_me_perform.core.index import MOB, PROJECTILE, VEHICLE
 from endstone_let_me_perform.features.vehicle_cap import RECOUNT_TICKS
 
 HOME = ("Overworld", 0, 0)
-
-
-class Allowance:
-    def __init__(self, checks):
-        self.left = checks
-
-    def spent(self):
-        self.left -= 1
-        return self.left < 0
 
 
 def click_block(server, player, item_id, x, z, face=BlockFace.UP, action=PlayerInteractEvent.RIGHT_CLICK_BLOCK, dimension=None):

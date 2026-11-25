@@ -65,6 +65,9 @@ class Block:
     def location(self):
         return Location(self.dimension, self.x, self.y, self.z)
 
+    def get_relative(self, offset_x, offset_y, offset_z):
+        return Block(self.dimension, self.x + offset_x, self.y + offset_y, self.z + offset_z, self.type)
+
 
 class Chunk:
     def __init__(self, dimension, x, z):
@@ -560,6 +563,15 @@ class ModalForm:
     def add_control(self, control):
         self.controls.append(control)
         return self
+
+
+class Allowance:
+    def __init__(self, checks):
+        self.left = checks
+
+    def spent(self):
+        self.left -= 1
+        return self.left < 0
 
 
 class Task:
