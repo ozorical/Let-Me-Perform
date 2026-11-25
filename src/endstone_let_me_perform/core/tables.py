@@ -21,6 +21,11 @@ PROTECTED_TYPES = (
     "minecraft:skeleton_horse",
     "minecraft:zombie_horse",
     "minecraft:camel",
+    "minecraft:camel_husk",
+    "minecraft:nautilus",
+    "minecraft:zombie_nautilus",
+    "minecraft:happy_ghast",
+    "minecraft:copper_golem",
     "minecraft:allay",
     "minecraft:armor_stand",
 )
@@ -36,6 +41,7 @@ HOSTILE_TYPES = frozenset({
     "minecraft:skeleton",
     "minecraft:wither_skeleton",
     "minecraft:bogged",
+    "minecraft:parched",
     "minecraft:spider",
     "minecraft:cave_spider",
     "minecraft:creeper",
@@ -97,6 +103,7 @@ TNT_TYPES = frozenset({"minecraft:tnt", "minecraft:tnt_minecart"})
 
 STACK_TAG = "lmp_stack"
 
+PLAYER_TYPE = "minecraft:player"
 ITEM_TYPE = "minecraft:item"
 XP_TYPE = "minecraft:xp_orb"
 ARROW_TYPE = "minecraft:arrow"

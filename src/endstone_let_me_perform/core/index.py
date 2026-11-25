@@ -1,7 +1,7 @@
 from endstone.actor import Item, Mob
 
 from endstone_let_me_perform.core.budget import Budget
-from endstone_let_me_perform.core.tables import CAPPED_PROJECTILES, ITEM_TYPE, VEHICLE_TYPES, XP_TYPE
+from endstone_let_me_perform.core.tables import CAPPED_PROJECTILES, ITEM_TYPE, PLAYER_TYPE, VEHICLE_TYPES, XP_TYPE
 
 MOB = "mob"
 ITEM = "item"
@@ -86,7 +86,7 @@ class EntityIndex:
         type_id = actor.type
         kind = PLAIN_KINDS.get(type_id)
         if kind is None:
-            if not isinstance(actor, Mob):
+            if type_id == PLAYER_TYPE or not isinstance(actor, Mob):
                 return None
             if type_id in self.protected or not type_id.startswith("minecraft:"):
                 return None

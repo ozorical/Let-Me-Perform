@@ -74,6 +74,15 @@ def test_seed_finds_entities_loaded_before_the_plugin(plugin, server):
     assert index.total(MOB) == 1
 
 
+def test_players_are_never_tracked(plugin, server):
+    index = plugin.index
+    server.join("Ozz")
+
+    index.seed()
+    assert index.total(MOB) == 0
+    assert index.snapshot() == []
+
+
 def test_protected_list_comes_from_settings(plugin, server):
     plugin.settings.change("general", "protected_types", ["minecraft:zombie"])
     plugin.apply_settings()
