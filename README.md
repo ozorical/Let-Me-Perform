@@ -33,7 +33,7 @@ paths from the vanilla pack.
 ## Installing
 
 1. Open the [Releases page](https://github.com/ozorical/Let-Me-Perform/releases) and download the wheel, a
-   file named like `endstone_let_me_perform-1.0.0-py3-none-any.whl`. Pick a tagged release, or the pre-release
+   file named like `endstone_let_me_perform-1.0.0b1-py3-none-any.whl`. Pick a tagged release, or the pre-release
    called "Development build", which is rebuilt from the newest commit on `main` each time one is pushed. The
    development build has passed the tests but has not been through a release.
 2. Drop the wheel into your server's `plugins` folder.

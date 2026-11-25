@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "endstone-let-me-perform"
-version = "1.0.0"
+version = "1.0.0b1"
 description = "Performance toolkit for Endstone servers: entity caps, mob stacking, item merging, lag clears and guards, set up from in game menus."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -4,9 +4,9 @@ All notable changes to Let Me Perform are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0]
+## [1.0.0 beta 1]
 
-The first release, not yet tagged. It carries the performance modules of the CrabSMP server into one standalone Endstone
+The first public beta. It carries the performance modules of the CrabSMP server into one standalone Endstone
 plugin, set up from in game menus. A fresh install turns on only the projectile cap, item merging, the piston
 guard and the TNT chain guard. Everything that removes mobs or items, or restricts players, starts off. The
 logic is tested against a stand in for Endstone, and the README lists under Status what is still to be
