@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="banner.png" alt="Let Me Perform" width="640">
+</div>
+
 # Let Me Perform
 
 Let Me Perform is a performance toolkit for [Endstone](https://endstone.dev) servers. Endstone is a plugin
@@ -690,6 +694,8 @@ Let-Me-Perform/
   LICENSE
   README.md
   CHANGELOG.md
+  logo.png  banner.png          the logo, and the banner at the top of this page
+  tools/build_logo.py           draws both images; needs Pillow
   .github/workflows/build.yml   lint, test, build and release
   src/endstone_let_me_perform/
     __init__.py
