@@ -34,6 +34,15 @@ def test_removal_gives_the_chunk_its_slot_back(plugin, server):
     assert ("Overworld", -1, -1) not in index.counts[MOB]
 
 
+def test_a_second_spawn_event_for_one_entity_is_counted_once(plugin, server):
+    index = plugin.index
+    zombie = server.spawn_mob("minecraft:zombie", 20, 64, 20)
+
+    server.spawn(zombie)
+    assert index.total(MOB) == 1
+    assert index.count(MOB, ("Overworld", 1, 1)) == 1
+
+
 def test_move_follows_an_entity_into_another_chunk(plugin, server):
     index = plugin.index
     cart = server.spawn_plain("minecraft:minecart", 0, 64, 0)

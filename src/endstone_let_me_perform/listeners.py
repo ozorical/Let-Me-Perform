@@ -32,6 +32,7 @@ class Listeners:
         if entry is None:
             return
 
+        index.forget(entry.id)
         if not index.spawning:
             for admit in self.spawn_gates:
                 if not admit(entry):
