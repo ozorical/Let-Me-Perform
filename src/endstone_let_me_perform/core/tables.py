@@ -95,6 +95,8 @@ VEHICLE_TYPES = frozenset({
 
 TNT_TYPES = frozenset({"minecraft:tnt", "minecraft:tnt_minecart"})
 
+STACK_TAG = "lmp_stack"
+
 ITEM_TYPE = "minecraft:item"
 XP_TYPE = "minecraft:xp_orb"
 ARROW_TYPE = "minecraft:arrow"
