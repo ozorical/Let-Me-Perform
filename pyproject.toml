@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "endstone-let-me-perform"
+version = "1.0.0"
+description = "Performance toolkit for Endstone servers: entity caps, mob stacking, item merging, lag clears and guards, set up from in game menus."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Ozz" }]
+keywords = ["endstone", "minecraft", "bedrock", "performance", "lag", "server"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Games/Entertainment",
+]
+
+[project.urls]
+Homepage = "https://github.com/ozorical/Let-Me-Perform"
+Issues = "https://github.com/ozorical/Let-Me-Perform/issues"
+
+[project.entry-points."endstone"]
+let_me_perform = "endstone_let_me_perform:LetMePerform"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/endstone_let_me_perform"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/endstone_let_me_perform", "README.md", "CHANGELOG.md", "LICENSE"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["F", "E9", "B", "RUF006", "RUF012"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
