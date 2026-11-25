@@ -112,7 +112,7 @@ SECTIONS = (
     )),
     Section("piston_guard", "Piston guard", "Pauses a piston that fires too fast, without breaking anything.", (
         switch(True),
-        whole("moves_per_window", "Moves allowed", 100, 10, 1000, 10, "How many times one piston may move inside the window."),
+        whole("moves_per_window", "Moves allowed", 40, 10, 1000, 10, "How many times one piston may move inside the window. A piston cannot move more than about 10 times a second."),
         whole("window_seconds", "Window in seconds", 10, 1, 60, 1, "The stretch of time the moves are counted over."),
         whole("suspend_seconds", "Pause in seconds", 30, 5, 600, 5, "How long a piston that went over is held still."),
     )),
@@ -132,7 +132,7 @@ SECTIONS = (
         switch(False),
         whole("idle_minutes", "Minutes idle", 10, 1, 120, 1, "How long a player must stand still before being moved."),
         whole("warn_seconds", "Warning in seconds", 60, 10, 300, 10, "How long before the move the player is warned in chat."),
-        choice("dimension", "Dimension", "overworld", ("overworld", "nether", "the_end"), "The dimension of the spot idle players are moved to."),
+        choice("dimension", "Dimension", "overworld", ("overworld", "nether", "the_end"), "The dimension of the spot idle players are moved to. Set the spot before turning this on: the menu can use where you are standing."),
         whole("x", "X", 0, -WORLD_LIMIT, WORLD_LIMIT, 1, "The X coordinate of the spot."),
         whole("y", "Y", 100, -64, 320, 1, "The Y coordinate of the spot."),
         whole("z", "Z", 0, -WORLD_LIMIT, WORLD_LIMIT, 1, "The Z coordinate of the spot."),
@@ -162,31 +162,31 @@ def fresh(default):
     return list(default) if isinstance(default, (list, tuple)) else default
 
 
-def read_value(option: Option, raw):
+def read_value(option: Option, raw, fallback):
     if option.kind == TOGGLE:
-        return raw if isinstance(raw, bool) else option.default
+        return raw if isinstance(raw, bool) else fallback
 
     if option.kind == WHOLE:
         if isinstance(raw, bool):
-            return option.default
+            return fallback
         try:
             return clamp(int(float(raw)), option.lowest, option.highest)
         except (TypeError, ValueError):
-            return option.default
+            return fallback
 
     if option.kind == DECIMAL:
         if isinstance(raw, bool):
-            return option.default
+            return fallback
         try:
             return clamp(float(raw), option.lowest, option.highest)
         except (TypeError, ValueError):
-            return option.default
+            return fallback
 
     if option.kind == CHOICE:
         text = str(raw).strip().lower()
-        return text if text in option.choices else option.default
+        return text if text in option.choices else fallback
 
-    return read_listing(raw, option.default)
+    return read_listing(raw, fallback)
 
 
 def read_listing(raw, default) -> list:
@@ -233,7 +233,8 @@ class Settings:
             for option in section.options:
                 if option.key not in table:
                     missing += 1
-                setattr(values, option.key, read_value(option, table.get(option.key, option.default)))
+                default = fresh(option.default)
+                setattr(values, option.key, read_value(option, table.get(option.key, default), default))
         return missing
 
     def write_into(self, document) -> None:
@@ -248,7 +249,8 @@ class Settings:
 
     def change(self, section_key: str, option_key: str, raw) -> None:
         option = section_named(section_key).option(option_key)
-        setattr(self.sections[section_key], option_key, read_value(option, raw))
+        values = self.sections[section_key]
+        setattr(values, option_key, read_value(option, raw, getattr(values, option_key)))
 
     def reset(self, section_key: str) -> None:
         values = self.sections[section_key]

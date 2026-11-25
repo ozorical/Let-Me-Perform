@@ -12,25 +12,26 @@ def test_defaults_follow_the_safe_start():
 def test_every_default_passes_its_own_check():
     for section in SECTIONS:
         for option in section.options:
-            assert read_value(option, option.default) == (list(option.default) if isinstance(option.default, tuple) else option.default)
+            default = list(option.default) if isinstance(option.default, tuple) else option.default
+            assert read_value(option, option.default, None) == default
 
 
 def test_numbers_are_clamped_and_junk_falls_back():
     option = section_named("mob_cap").option("per_chunk")
-    assert read_value(option, 99999) == 200
-    assert read_value(option, -4) == 5
-    assert read_value(option, "45") == 45
-    assert read_value(option, "plenty") == 30
-    assert read_value(option, True) == 30
+    assert read_value(option, 99999, 30) == 200
+    assert read_value(option, -4, 30) == 5
+    assert read_value(option, "45", 30) == 45
+    assert read_value(option, "plenty", 30) == 30
+    assert read_value(option, True, 30) == 30
 
 
 def test_choice_and_listing_are_cleaned():
     dimension = section_named("afk").option("dimension")
-    assert read_value(dimension, "The_End") == "the_end"
-    assert read_value(dimension, "moon") == "overworld"
+    assert read_value(dimension, "The_End", "overworld") == "the_end"
+    assert read_value(dimension, "moon", "overworld") == "overworld"
 
     protected = section_named("general").option("protected_types")
-    assert read_value(protected, " Minecraft:Cow, minecraft:pig ,, minecraft:cow") == ["minecraft:cow", "minecraft:pig"]
+    assert read_value(protected, " Minecraft:Cow, minecraft:pig ,, minecraft:cow", []) == ["minecraft:cow", "minecraft:pig"]
 
 
 def test_apply_from_counts_what_the_file_left_out():
@@ -55,6 +56,13 @@ def test_settings_survive_a_round_trip_through_toml():
     assert loaded.lag_clear.interval_minutes == 45
     assert loaded.afk.dimension == "nether"
     assert loaded.general.protected_types == ["minecraft:cow"]
+
+
+def test_a_bad_change_keeps_the_value_it_had():
+    settings = Settings()
+    settings.change("afk", "x", 500)
+    settings.change("afk", "x", "over there")
+    assert settings.afk.x == 500
 
 
 def test_reset_puts_a_section_back():

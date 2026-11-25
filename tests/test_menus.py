@@ -207,7 +207,7 @@ def test_a_long_list_is_split_into_boxes_that_fit(plugin, server, admin, tmp_pat
 
     answers[-1] = 5
     submit(form, admin, answers)
-    assert plugin.settings.is_default("general")
+    assert plugin.settings.general.protected_types == protected
 
 
 def test_saving_clamps_and_writes_the_file(plugin, server, admin, tmp_path):
@@ -247,7 +247,7 @@ def test_answers_without_label_slots_still_line_up(plugin, server, admin):
     assert plugin.settings.item_merge.radius == 8
 
 
-def test_junk_answers_fall_back_to_the_defaults(plugin, server, admin, switch_on):
+def test_junk_answers_leave_the_setting_as_it_was(plugin, server, admin, switch_on):
     switch_on(
         afk__idle_minutes=45,
         afk__warn_seconds=120,
@@ -260,8 +260,8 @@ def test_junk_answers_fall_back_to_the_defaults(plugin, server, admin, switch_on
     submit(shown(server, admin), admin, [None, "soon", None, {}, None, 7, None, "east", None, None, None, []])
 
     afk = plugin.settings.afk
-    assert (afk.idle_minutes, afk.warn_seconds, afk.dimension) == (10, 60, "overworld")
-    assert (afk.x, afk.y, afk.z) == (0, 100, 0)
+    assert (afk.idle_minutes, afk.warn_seconds, afk.dimension) == (45, 120, "nether")
+    assert (afk.x, afk.y, afk.z) == (500, 70, -500)
 
 
 def test_closing_the_editor_goes_back_to_the_section(plugin, server, admin):
@@ -437,7 +437,7 @@ def test_how_it_works_returns_to_its_section(plugin, server, admin):
     press(shown(server, admin), admin, "How it works")
     page = shown(server, admin)
     assert page.title == "Piston guard"
-    assert "more than 100 times in 10 seconds is held still for 30 seconds" in page.content
+    assert "more than 40 times in 10 seconds is held still for 30 seconds" in page.content
     assert button_named(page, "Back").text == "§0Back\n§8[ Piston guard §8]"
 
     press(page, admin, "Back")
